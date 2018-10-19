@@ -9,7 +9,7 @@ pool:
 variables:
   image: 'web'
   fullTag: '$(image):$(build.buildId)'
-  latestTag: '$(image):$(build.buildId)'
+  latestTag: '$(image):latest'
 
 steps:
 - script: |
