@@ -16,5 +16,6 @@ steps:
     docker build -f Dockerfile -t $(dockerId).azurecr.io/$(fullTag) .
     docker login -u $(dockerId) -p $(pswd) $(dockerid).azurecr.io
     docker push $(dockerId).azurecr.io/$(fullTag)
+    docker tag $(dockerId).azurecr.io/$(image) $(dockerId).azurecr.io/$(latestTag)
     docker push $(dockerId).azurecr.io/$(latestTag)
   displayName: 'Build and push Docker image'
