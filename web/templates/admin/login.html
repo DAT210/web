@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Shady Admin</title>
+  <!-- Bootstrap core CSS-->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> 
+  <!-- Custom fonts for this template-->
+  <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin.css') }}">
+</head>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        {% if form.errors %}
+          <ul class="alert alert-danger">
+            {% for field in form.errors %}
+              {% for error in form.errors[field] %}
+                <li> {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+        <form method="post">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class="form-control", placeholder="Enter username") }}
+          </div>
+          <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-control", placeholder="Password") }}
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <label for="remember" class="form-check-label">
+                  {{ form.remember(class="form-check-input") }}
+                  {{ form.remember.label.text }}
+              </label>
+            </div>
+          </div>
+          <input class="btn btn-primary btn-block" type="submit" value="Login">  <!--href="/admin">Login</a>-->
+        </form>
+        <div class="text-center">
+          <!--<a class="d-block small mt-3" href="admin/register">Register an Account</a>
+          <a class="d-block small" href="admin/forgot">Forgot Password?</a>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+</body>
+
+</html>
