@@ -1,7 +1,6 @@
 # Central Flask Server Using Blueprints
 
 ## Introduction
--------------------------
 As discussed with the other groups, the plan is to use a central (simplistic) Flask server for the customer-facing page where the groups can work with as little conflict as possible. As such, this page uses the Flask feature Blueprints to allow people to create Flask routes in individual files, with a specified `url_prefix` (e.g. /menu) which defines the URL that the route can be reached by. 
 
 The website should have a common/consistent theme, so it should use some common CSS and header/footer portions for each page. Each group is responsible for their respective parts of the domain (e.g. /menu or /order) and should implement the blueprints for this section of the website and find a way to generate the body of the respective HTML pages.
@@ -9,7 +8,6 @@ The website should have a common/consistent theme, so it should use some common 
 The plan is to use Docker to run all the servers etc. for each group, and have some Docker containers communicate with each other using User Defined Networks in Docker. Alternatively a group could run their server another way as long as their API is reachable by means of GET/POST requests.
 
 ## Suggestion for how cross-group communication could work
--------------------------
 There is a bit of uncertainty about how the communication between the services of each group should communicate among each other. Our suggestion is the following:
 
 Each group creates an API which can be reached at a certain domain:port. This could either be a standalone server or done simply by using Docker and communicating between Docker containers. All API Docker containers should connect to the same User Defined Docker Network as this central server so that they can communicate with each other.
@@ -23,7 +21,6 @@ You can communicate with your own services (e.g. Flask servers run in Docker con
 If anything is unclear or you disagree with something/have a better idea, please speak up.
 
 ## How to use this server
--------------------------
 * Navigate to the folder containing the `docker-compose.yml` file in a terminal. 
 * Run the following command: `docker-compose up --build`
 * Open your browser.
@@ -32,7 +29,6 @@ If anything is unclear or you disagree with something/have a better idea, please
 
 
 ## Structure
--------------------------
 ```bash
 ├─restaurant    
 │ ├───blueprints
@@ -115,7 +111,6 @@ Contains the `create_app()` method which will create the server.
 Can be used for configuration parameters (things that would normally be put in `app.py` as `app.config[...] = ...`), simply `key=value` pairs. This will be useful if we decide later on to use a shared database. 
 
 ## How to use Blueprints
--------------------------
 Reference: http://flask.pocoo.org/docs/1.0/blueprints/  
 Tutorial using blueprints: https://www.youtube.com/watch?v=Wfx4YBzg16s
 
@@ -195,7 +190,6 @@ However when the route is defined in a  blueprint you have to prepend the bluepr
 
 
 ## Importing Python modules
--------------------------
 If you need to import non-default Python modules in your code, you have to define them in `requirements.txt`. You have to add a new line with the name of the module that you would need if you were to install it with pip. E.g.:
 * Want to use `mysql.connector` module in Python. This module could be installed locally using `pip install mysql-connector-python`.
 * Open `requirements.txt`.
@@ -205,7 +199,6 @@ If you need to import non-default Python modules in your code, you have to defin
 
 
 ## How to use Docker networks/your API as a Docker container
--------------------------
 Our Docker containers on the same machine (eventually on Azure) can communicate with each other as long as they are part of the same User Defined Network. The frontend server is configured to run on a User Defined Docker Network called `frontend`, as defined in its `docker-compose.yml` file. 
 
 In order to allow it to communicate with your docker container, the container should join the `frontend` network. 
@@ -230,7 +223,6 @@ networks:
 ```
 
 ## Example of GET request to another Docker container
--------------------------
 ```py
 from flask import Blueprint, render_template
 import requests
@@ -256,5 +248,4 @@ From the code snippet above:
     * If it works correctly `response.content` will contain a JSON structure. We can treat this in several ways. One way is to convert the JSON to a Python structure and handle the data, by using `some_variable = json.loads(response.content)` and then handling the data from `some_variable`.
 
 ## Adding app.config parameters
--------------------------
 If you need to add parameters to `app.config` you should do this in the file `config.py`. Within this file you can add `KEY = VALUE` parameters that will be automatically used in `app.config` in the following way: `app.config[KEY] = VALUE`.
