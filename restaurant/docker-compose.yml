@@ -1,0 +1,18 @@
+version: '3.7'
+services: 
+  restaurant:
+    container_name: restaurant
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    command: python3 run.py
+    networks: 
+      - frontend
+
+networks: 
+  frontend:
+  # The following line ensures the full name of the network will be 'frontend'
+    name: frontend

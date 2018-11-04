@@ -1,0 +1,44 @@
+/*Jørgen's styles*/
+#shoppingcart {
+    position: fixed;
+    right:10px;
+    top:80px;
+    width: 150px;
+    display: none;
+    border-style: inset;
+  border-color: black;
+  
+  }
+  
+  .details{
+  /* position: relative;
+  left: 10px;
+  display: none;
+  width: 400px; */
+  }
+  
+  .item{
+    /* text-decoration: none;
+    color: black; */
+  }
+  
+  .Ingredientlist {
+  /*float:right;*/
+  }
+  
+  .cancel {
+  float: right;
+  /*position: absolute;
+  right:2px;
+  top: 5px;*/
+  }
+  .no{
+    margin:0px;
+    padding:0px;
+  }
+  /* .thumbnail{
+    width.167px:
+  } */
+  .course{
+    
+  }
