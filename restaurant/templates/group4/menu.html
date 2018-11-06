@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+{%block pageTitle%}Menu Page{%endblock%}
+{%block yourStyle%}
+<link rel="stylesheet" type="text/css" href="../static/group4/css/menuStyle.css">
+{%endblock%}
+{%include "header.html"%}
+{% block content %}
+	<section class="section-dinner bgwhite">
+		<div class="header-dinner parallax0 parallax100" style="background-image: url(../static/origin/images/heading-page-03.jpg);">
+			<div class="bg1-overlay t-center p-t-170 p-b-165">
+				<h2 class="tit4 t-center">
+					Daily Deal
+				</h2>
+			</div>
+		</div>
+ 		<div class="container">
+			<div class="row p-t-108 p-b-70">
+				<!-- Block3 -->
+				<div class="blo3 flex-w flex-col-l-sm m-b-30">
+					<div class="pic-blo3 size50 bo-rad-10 hov-img-zoom m-r-28">
+						<a href="#"><img src="../static/group4/images/custom/20.jpg" alt="IMG-MENU"></a>
+					</div>
+					<div class="text-blo3 size21 flex-col-l-m">
+						<a href="#" class="txt21 m-b-3">
+								Maecenas tristique
+						</a>
+						<span class="txt23">
+							some shit
+						</span>
+						<span class="txt22 m-t-20">
+							399$
+						</span>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</section>
+	
+	<section class="bg-title-page flex-c-m p-t-160 p-b-80 p-l-15 p-r-15" style="background-image: url(../static/origin/images/bg-title-page-01.jpg);">
+		<h2 class="tit6 t-center">
+			Pato Menu
+		</h2>
+	</section>
+ 	<!-- Main menu -->
+	<section class="section-mainmenu p-t-110 p-b-70 bg1-pattern">
+		<div class="container">
+			<div class="row">
+			{% for category,courses in patoMenu.items() %}
+				{% if loop.cycle('1', '2') == '1' %}
+				<div class="col-md-10 col-lg-6 p-r-35 p-r-15-lg m-l-r-auto">
+				{%endif%}
+					<div class="wrap-item-mainmenu p-b-22">
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							{{category}}
+						</h3>
+						{% for course in courses %}
+							<!-- Item mainmenu -->
+							<div class="item-mainmenu m-b-36 course" id="{{course.c_id}}">
+								<div class="flex-w flex-b m-b-3">
+									<a href="#" class="name-item-mainmenu txt21 item" id="{{course.c_id}}_name">
+										{{ course.c_name }}
+									</a>
+ 									<div class="line-item-mainmenu bg3-pattern"></div>
+ 									<div class="price-item-mainmenu txt22" id="{{course.c_id}}_price">
+										{{ course.price }}$
+									</div>
+								</div>
+								<span class="info-item-mainmenu txt23" id="{{course.c_id}}_info1">
+										{{ course.info }}
+								</span>
+								<div class="container details"id="{{course.c_id}}_details">
+									<div class="row">
+										<div class="col">
+											<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+												<a href="#"><img src="../static/group4/images/custom/{{course.c_id|replace(' ','')}}.jpg" alt="IMG-MENU"></a>
+											</div>
+										</div>
+										<div class="col no">
+											<div class="container no">
+												<div class="row no">     
+													<div class="col no">
+														<span class="info-item-mainmenu txt23" id="{{course.c_id}}_info2">
+															{{ course.info }}
+														</span>
+													</div>
+												</div>
+												<div class="row no">     
+													<div class="col no">
+														<label for="chooseamount">Amount:</label>
+														<select name="chooseamount" class="chooseamount" id="select{{ courseid }}">
+															<option value="1" selected>1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4">4</option>
+														</select>
+														<a class="btn btn-primary btn-sm additem">Add to Cart</a>
+													</div>
+												</div>
+											</div>  
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					{% if loop.cycle('1', '2') == '2' %}
+				</div>
+				{%endif%}
+			{%endfor%}
+			</div>
+		</div>
+	</section>
+
+ 	{% for category,courses in alternateMenu.items() %}
+	<section class="section-{{category|lower}} bgwhite">
+		<div class="header-{{category|lower}} parallax0 parallax100" style="background-image: url(../static/group4/images/custom/{{category}}.jpg);">
+			<div class="bg1-overlay t-center p-t-170 p-b-165">	
+				<h2 class="tit4 t-center">
+					{{category}}
+				</h2>
+			</div>
+		</div>
+ 		<div class="container">
+			<div class="row p-t-108 p-b-70">
+				{% for course in courses %}
+				{% if loop.cycle('1', '2','3') == '1' %}
+				<div class="col-md-8 col-lg-6 m-l-r-auto">
+				{%endif%}
+					<!-- Block3 -->
+					<div class="blo3 flex-w flex-col-l-sm m-b-30">
+						<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+							<a href="#"><img src="../static/group4/images/custom/{{course.c_id|replace(' ','')}}.jpg" alt="IMG-MENU"></a>
+						</div>
+ 						<div class="text-blo3 size21 flex-col-l-m">
+							<a href="#" class="txt21 m-b-3">
+								{{ course.c_name }}
+							</a>
+ 							<span class="txt23">
+								{{ course.info }}
+							</span>
+ 							<span class="txt22 m-t-20">
+								${{ course.price }}
+							</span>
+						</div>
+					</div>		
+					{% if loop.cycle('1', '2','3') == '3' %}
+				</div>
+				{%endif%}
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	{%endfor%}
+ {% include "footer.html"%}
+{% endblock %}
+{%block yourScript%}
+<script src="../static/group4/js/poptest.js"></script>
+{%endblock%}
