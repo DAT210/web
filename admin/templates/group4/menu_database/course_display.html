@@ -1,0 +1,202 @@
+<h2>Courses</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            Info
+        </th>
+        <th>
+            Ingredients
+        </th>
+        <th>
+            Selections
+        </th>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+            <tr>
+                <!-- ID -->
+                <td style="width: 12.5%">
+                    <h5 style="display: inline-block">
+                        {{ course.c_id }}
+                    </h5>
+                    {% if admin %}
+                        &ensp;
+                        <button class="btn btn-info edit_course" name="{{ course.c_name }}_{{ course.c_id }}">Edit</button>
+                        &ensp;
+                        <button class="btn btn-danger remove_course" name="{{ course.c_name }}_{{ course.c_id }}">Remove</button>
+                    {% endif %}
+                </td>
+                <!-- Info -->
+                <td style="width: 25%">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width: 15%">
+                                    <strong>
+                                        Name:
+                                    </strong>
+                                </td>
+                                <td>
+                                    {% if admin %}
+                                        <span class="hidden-edit-course-{{ course.c_id }}">
+                                        {% endif %}
+                                            {{ course.c_name }}
+                                        {% if admin %}
+                                        </span>
+                                        <span class="hidden-default-course-{{ course.c_id }}" style="display: none">
+                                            <form action="#" class="form-inline">
+                                                <input type="text" id="course-edit-name_{{ course.c_id }}" class="form-control course-edit-input_{{ course.c_id }} input-sm" placeholder="Course Name" value="{{ course.c_name }}">
+                                                &ensp;
+                                                <input type="button" class="btn btn-info edit_course_name" name="{{ course.c_id }}" value="Change">
+                                            </form>
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong style="width: 15%">
+                                        Price:
+                                    </strong>
+                                </td>
+                                <td>
+                                    {% if admin %}
+                                    <span class="hidden-edit-course-{{ course.c_id }}">
+                                        {% endif %}
+                                        {{ course.price }}
+                                        {% if admin %}
+                                    </span>
+                                    <span class="hidden-default-course-{{ course.c_id }}" style="display: none">
+                                        <form action="#" class="form-inline">
+                                            <input type="number" id="course-edit-price_{{ course.c_id }}" class="form-control course-edit-input_{{ course.c_id }} input-sm" placeholder="Course Price" value="{{ course.price }}">
+                                            &ensp;
+                                            <input type="button" class="btn btn-info edit_course_price" name="{{ course.c_id }}" value="Change">
+                                        </form>
+                                    </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong style="width: 15%">
+                                        Category:
+                                    </strong>
+                                </td>
+                                <td>
+                                    <span class="hidden-edit-course-{{ course.c_id }}">
+                                        {{ categories[course.ca_id].ca_name }}
+                                    </span>
+                                    <span class="hidden-default-course-{{ course.c_id }}" style="display: none">
+
+                                        <form action="#" class="form-inline" autocomplete="off">
+                                            <div class="autocomplete">
+                                                <input type="text" id="autocomplete_course_edit_category-{{ course.c_id }}" class="form-control course-edit-category-input" name="course_edit_category_autocomplete" placeholder="Category" value="{{ categories[course.ca_id].ca_name }}">
+                                            </div>
+                                            &ensp;
+                                            <input type="button" id="button_autocomplete_course_edit_category-{{ course.c_id }}" style="display:inline" class="btn btn-info edit_course_category" name="{{ course.c_id }}" value="Change">
+                                        </form>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong style="width: 15%">
+                                        Description:
+                                    </strong>
+                                </td>
+                                <td>
+                                    <span class="hidden-edit-course-{{ course.c_id }}">
+                                        {% if not course.info %}
+                                            <span style="color: red">No description available.</span>
+                                        {% else %}
+                                            {{ course.info }}
+                                        {% endif %}
+                                    </span>
+                                    <span class="hidden-default-course-{{ course.c_id }}" style="display: none">
+                                        <form action="#" class="form-inline">
+                                            <input type="text" id="course-edit-description_{{ course.c_id }}" class="form-control course-edit-description_{{ course.c_id }} input-sm" placeholder="Course Description" value="{{ course.info }}">
+                                            &ensp;
+                                            <input type="button" class="btn btn-info edit_course_description" name="{{ course.c_id }}" value="Change">
+                                        </form>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
+                <!-- Ingredients -->
+                <td style="width: 31.25%">
+                    {% if course.ingredients|length < 1 %}
+                        <span style="color: red">No ingredients available.</span>
+                    {% endif %}
+                    <table>
+                        {% for ingredient in course.ingredients %}
+                        <tr>
+                            <td style="width: 16.666%">
+                                {% if admin %}
+                                    <button class="btn btn-danger btn-sm remove_ingredient_from_course hidden-default-course-{{ course.c_id }}" style="display: none" name="{{ course.c_id }}_{{ ingredient.i_id }}">X</button>
+                                {% endif %}
+                                {{ ingredient.i_name }}
+                            </td> 
+                            <td style="width: 8.333%" class="{% if ingredient.available == "1" %}bg-success{% else %}bg-danger{% endif %}"></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% if admin %}
+                        <br>
+                        <span class="hidden-default-course-{{ course.c_id }}" style="display: none">
+                            <form action="#" class="form-inline" autocomplete="off">
+                                <div class="autocomplete">
+                                    <input type="text" id="autocomplete_ingredient-{{ course.c_id }}" class="form-control ingredient-input" name="ingredient_autocomplete" placeholder="Ingredient">
+                                </div>
+                                &ensp;
+                                <input type="button" id="button_autocomplete_ingredient-{{ course.c_id }}" style="display:inline" class="btn btn-success add_ingredient_to_course" name="{{ course.c_id }}" value="Add">
+                            </form>
+                        </span>
+                    {% endif %}
+                </td>
+                <!-- Selections -->
+                <td style="width: 31.25%">
+                    {% if course.selections|length < 1 %}
+                        <span style="color: blue">No selections available.</span>
+                    {% endif %}
+                    <table>
+                        {% for selection in course.selections %}
+                        <tr>
+                            <td style="width: 16.666%">
+                                {% if admin %}
+                                    <button class="btn btn-danger btn-sm remove_selection_from_course hidden-default-course-{{ course.c_id }}" style="display: none" name="{{ course.c_id }}_{{ selection.s_id }}">X</button>
+                                {% endif %}
+                                {{ selection.s_name }}
+                            </td> 
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% if admin %}
+                        <br>
+                        <span class="hidden-default-course-{{ course.c_id }}" style="display: none">
+                            <form action="#" class="form-inline" autocomplete="off">
+                                <div class="autocomplete">
+                                    <input type="text" id="autocomplete_selection-{{ course.c_id }}" class="form-control selection-input" name="selection_autocomplete" placeholder="Selection">
+                                </div>
+                                &ensp;
+                                <input type="button" id="button_autocomplete_selection-{{ course.c_id }}" style="display:inline" class="btn btn-success add_selection_to_course" name="{{ course.c_id }}" value="Add">
+                            </form>
+                        </span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    {% if admin %}
+    <tr>
+        <td colspan="4">
+            <div class="row justify-content-center">
+                <input class="btn btn-success btn-lg col-4" id="add_course" value="Add New Course">
+            </div>
+        </td>
+    </tr>
+    {% endif %}
+</table>

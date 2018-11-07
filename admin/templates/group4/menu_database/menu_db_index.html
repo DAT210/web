@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{%block pageTitle%}
+Menu database
+{%endblock%}
+{%block yourStyle%}
+<link rel="stylesheet" type="text/css" media="screen" href="../static/group4/css/main.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+{%endblock%}
+{% block content %}
+{%include "navbar.html"%}
+    <!-- UNFINISHED FUNCTIONALITY, USE AT YOUR OWN RISK -->
+    <span style="display: none">
+        <button id="dark-mode" class="btn" style="display: inline; background: #333333; color: white">Dark Mode</button>
+        <button id="light-mode" class="btn" style="display: none;">Light Mode</button>
+    </span>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link course-link tab-swap" name="course" href="#">Courses</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link ingredient-link tab-swap" name ="ingredient" href="#">Ingredients</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link allergene-link tab-swap" name ="allergene" href="#">Allergenes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link categorie-link tab-swap" name ="category" href="#">Categories</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link selection-link tab-swap" name ="selection" href="#">Selections</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link selection_category-link tab-swap" name ="selection_category" href="#">Selection Categories</a>
+        </li>
+    </ul>
+
+    <!-- MAKE TAB -->
+    <span class="course_display db_tab" style="display: block">
+        {% include "group4/menu_database/course_display.html" %}
+    </span>
+    
+    <!-- MAKE TAB -->
+    <span class="ingredient_display db_tab" style="display: none">
+        {% include "group4/menu_database/ingredient_display.html" %}
+    </span>
+    
+    <!-- MAKE TAB -->
+    <span class="allergene_display db_tab" style="display: none">
+        {% include "group4/menu_database/allergene_display.html" %}
+    </span>
+    
+    <!-- MAKE TAB -->
+    <span class="category_display db_tab" style="display: none">
+        {% include "group4/menu_database/category_display.html" %}
+    </span>
+    
+    <!-- MAKE TAB -->
+    <span class="selection_display db_tab" style="display: none">
+        {% include "group4/menu_database/selection_display.html" %}
+    </span>
+    
+    <!-- MAKE TAB -->
+    <span class="selection_category_display db_tab" style="display: none">
+        {% include "group4/menu_database/selection_category_display.html" %}
+    </span>
+{%endblock%}
+
+
+{%block yourScript%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+{% if admin %}
+    <script src="../static/group4/js/main_admin.js"></script>
+{% else %}
+    <script src="../static/group4/js/main.js"></script>
+{% endif %}
+{%endblock%}

@@ -1,0 +1,55 @@
+<h2>Allergenes</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+    </thead>
+    <tbody>
+        {% for allergene in allergenes %}
+            <tr>
+                <!-- ID -->
+                <td style="width: 12.5%">
+                    <h5 style="display: inline-block">
+                        {{ allergene.a_id }}
+                    </h5>
+                    {% if admin %}
+                        &ensp;
+                        <button class="btn btn-info edit_allergene" name="{{ allergene.a_name }}_{{ allergene.a_id }}">Edit</button>
+                        &ensp;
+                        <button class="btn btn-danger remove_allergene" name="{{ allergene.a_name }}_{{ allergene.a_id }}">Remove</button>
+                    {% endif %}
+                </td>
+                <!-- Name -->
+                <td style="width: 87.5%">
+                    {% if admin %}
+                        <span class="hidden-edit-allergene-{{ allergene.a_id }}">
+                        {% endif %}
+                            {{ allergene.a_name }}
+                        {% if admin %}
+                        </span>
+                        <span class="hidden-default-allergene-{{ allergene.a_id }}" style="display: none">
+                            <form action="#" class="form-inline">
+                                <input type="text" id="allergene-edit-name_{{ allergene.a_id }}" class="form-control allergene-edit-input_{{ allergene.a_id }} input-sm" placeholder="Allergene Name" value="{{ allergene.a_name }}">
+                                &ensp;
+                                <input type="button" class="btn btn-info edit_allergene_name" name="{{ allergene.a_id }}" value="Change">
+                            </form>
+                        </span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    {% if admin %}
+    <tr>
+        <td colspan="4">
+            <div class="row justify-content-center">
+                <input class="btn btn-success btn-lg col-4" id="add_allergene" value="Add New Allergene">
+            </div>
+        </td>
+    </tr>
+    {% endif %} 
+</table>

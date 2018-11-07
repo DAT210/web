@@ -1,0 +1,102 @@
+<h2>Ingredients</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Available
+        </th>
+        <th>
+            Allergenes
+        </th>
+        <th>
+            Selection Links
+        </th>
+    </thead>
+    <tbody>
+        {% for _, ingredient in ingredients.items() %}
+            <tr>
+                <!-- ID -->
+                <td style="width: 12.5%">
+                    <h5 style="display: inline-block">
+                        {{ ingredient.i_id }}
+                    </h5>
+                    {% if admin %}
+                        &ensp;
+                        <button class="btn btn-info edit_ingredient" name="{{ ingredient.i_name }}_{{ ingredient.i_id }}">Edit</button>
+                        &ensp;
+                        <button class="btn btn-danger remove_ingredient" name="{{ ingredient.i_name }}_{{ ingredient.i_id }}">Remove</button>
+                    {% endif %}
+                </td>
+                <!-- Name -->
+                <td style="width: 25%">
+                    {% if admin %}
+                        <span class="hidden-edit-ingredient-{{ ingredient.i_id }}">
+                        {% endif %}
+                            {{ ingredient.i_name }}
+                        {% if admin %}
+                        </span>
+                        <span class="hidden-default-ingredient-{{ ingredient.i_id }}" style="display: none">
+                            <form action="#" class="form-inline">
+                                <input type="text" id="ingredient-edit-name_{{ ingredient.i_id }}" class="form-control ingredient-edit-input_{{ ingredient.i_id }} input-sm" placeholder="Ingredient Name" value="{{ ingredient.i_name }}">
+                                &ensp;
+                                <input type="button" class="btn btn-info edit_ingredient_name" name="{{ ingredient.i_id }}" value="Change">
+                            </form>
+                        </span>
+                    {% endif %}
+                </td>
+                <!-- Available -->
+                <td class="{% if ingredient.available == "1" %}bg-success{% else %}bg-danger{% endif %}" style="width: 5%"></td>
+                <!-- Allergenes -->
+                <td style="width: 16.125%">
+                    {% if ingredient.allergenes|length < 1 %}
+                        <span style="color: blue">No allergenes available.</span>
+                    {% endif %}
+                    <table>
+                        {% for allergene in ingredient.allergenes %}
+                        <tr>
+                            <td style="width: 16.666%">
+                                {% if admin %}
+                                    <button class="btn btn-danger btn-sm remove_allergene_from_ingredient hidden-default-ingredient-{{ ingredient.i_id }}" style="display: none" name="{{ ingredient.i_id }}_{{ allergene.a_id }}">X</button>
+                                {% endif %}
+                                {{ allergene.a_name }}
+                            </td> 
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% if admin %}
+                        <br>
+                        <span class="hidden-default-ingredient-{{ ingredient.i_id }}" style="display: none">
+                            <form action="#" class="form-inline" autocomplete="off">
+                                <div class="autocomplete">
+                                    <input type="text" id="autocomplete_allergene-{{ ingredient.i_id }}" class="form-control allergene-input" name="allergene_autocomplete" placeholder="Allergene">
+                                </div>
+                                &ensp;
+                                <input type="button" id="button_autocomplete_allergene-{{ ingredient.i_id }}" style="display:inline" class="btn btn-success add_allergene_to_ingredient" name="{{ ingredient.i_id }}" value="Add">
+                            </form>
+                        </span>
+                    {% endif %}
+                </td>
+                <!-- Selection Links -->
+                <td style="width: 16.125%">
+                    <table>
+
+                    </table>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    {% if admin %}
+    <tr>
+        <td colspan="5">
+            <div class="row justify-content-center">
+                <input class="btn btn-success btn-lg col-4" id="add_ingredient" value="Add New Ingredient">
+            </div>
+        </td>
+    </tr>
+    {% endif %} 
+</table>
