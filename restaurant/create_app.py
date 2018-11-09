@@ -22,4 +22,8 @@ def create_app(config_class=Config):
     from blueprints.group4.menu.routes import menu
     app.register_blueprint(menu)
 
+    # Group 7: Payment
+    from blueprints.group7.payment.routes import payment
+    app.register_blueprint(payment)
+
     return app
