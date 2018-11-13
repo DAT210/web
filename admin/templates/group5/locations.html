@@ -1,0 +1,167 @@
+<!-- reference of how to use in group4 menu.html -->
+{% extends "layout.html" %}
+{%block pageTitle%}
+Inventory
+{%endblock%}
+{%block yourStyle%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+{%endblock%}
+
+{% block content %}
+{%include "navbar.html"%}
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <h1>Showing list of locations</h1>
+    </div>
+    <div class="col-3"></div>
+  </div>
+<div class="row">
+  <div class="col-1"></div>
+  <div class="col-2">
+    <div class="list-group" id="list-tab" role="tablist">
+
+      <!-- Button and hidden form to create a new location -->
+        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#newloc" aria-expanded="false" aria-controls="newloc"> New Location </button>
+        <div class="collapse" id="newloc">
+          <form id="newLocForm" action="" method="POST">
+            <div class="form-group">
+              <label for="newLocationName">Location Name</label>
+              <input type="text" class="form-control" id="newLocationName">
+            </div>
+            <button type="button" class="btn btn-secondary" name="submit" value="submit" id="newSubmit">Submit</button>
+          </form>
+        </div>
+      
+        <!-- Hidden form to update a location -->
+        <div class="collapse" id="updateLoc">
+          <form id="updateLocForm" action="" method="PUT">
+              <div class="form-group">
+                <label for="updateLocationName">Location Name</label>
+                <input type="text" class="form-control" id="updateLocationName">
+              </div>
+              <div class="form-group">
+                  <label for="updateLocationID">Location ID</label>
+                  <input type="text" class="form-control" id="updateLocationID" disabled>
+                </div>
+              <button type="button" class="btn btn-secondary" name="submit" value="submit" id="updateSubmit">Submit</button>
+          </form>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-8">
+    <table class="table table-striped table-dark table-bordered table-sm">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">Name</th>
+          <th scope="col" class="text-center">Ingredients</th>
+          <th scope="col" class="text-center"></th>
+          <th scope="col" class="text-center"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for location in locations %}
+          <tr>
+            <th scope="row" class="text-center">{{location.id}}</th>
+            <td class="text-center">{{location.name}}</td>
+            <td class="text-center"><a href="{{location.id}}" class="btn btn-primary">Ingredients</a></td>
+            <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#updateLoc" aria-expanded="false" aria-controls="updateLoc" id="updateNameFormButtonLoc{{location.id}}" value="{{location.id}}">Update</button></td>
+            <td class="text-center"><button class="btn btn-danger" type="button" value="{{location.id}}" id="delete{{location.id}}">Delete</button></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-1"></div>
+</div>
+{%endblock%}
+
+
+{%block yourScript%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+      // Create a new Location
+      $('#newSubmit').on("click", function(event){
+        var name = $('#newLocationName').val();
+          // Send request via AJAX
+          $.ajax({
+              type: "POST",
+              url: "https://192.168.99.100:25101/v1/locations/",
+              headers: {
+                  "Authorization": "Bearer " + sessionStorage.getItem("access_token")
+              },
+              contentType: "application/json",
+              data: JSON.stringify({"locationName": name}),
+              error: function(xhr, status, error) {
+                console.log(xhr.responseText)
+              },
+              success: function(data) {
+              location.reload()
+            },
+            statusCode: {
+              401: function() {
+                window.location.href = "/locations/login"
+              }
+            }
+          })
+      }); 
+      // Update a location
+      $('#updateSubmit').on("click", function(event){
+      var name = $('#updateLocationName').val();
+      var id = $('#updateLocationID').val();
+      //Send request via AJAX
+      $.ajax({
+          type: "PUT",
+          url: "https://192.168.99.100:25101/v1/locations/" + id,
+          headers: {
+              "Authorization": "Bearer " + sessionStorage.getItem("access_token")
+          },
+          contentType: "application/json",
+          data: JSON.stringify({"locationName": name}),
+          error: function(xhr, status, error) {
+              console.log(xhr.responseText)
+          },
+          success: function(data) {
+            location.reload()
+          },
+          statusCode: {
+            401: function() {
+              window.location.href = "/locations/login"
+            }
+          }
+      })
+      });
+      // Delete a location
+      $('[id^=delete]').on("click", function(event){
+      //Send request via AJAX
+      $.ajax({
+          type: "DELETE",
+          url: "https://192.168.99.100:25101/v1/locations/" + $(event.target).val(),
+          headers: {
+              "Authorization": "Bearer " + sessionStorage.getItem("access_token")
+          },
+          contentType: "application/json",
+          error: function(xhr, status, error) {
+              console.log(xhr.responseText)
+          },
+          success: function(data) {
+            location.reload()
+          },
+          statusCode: {
+            401: function() {
+              window.location.href = "/locations/login"
+            }
+          }
+        })
+      });
+      $('[id^=updateNameFormButtonLoc]').on("click", function(event){
+        $('#updateLocationID').val($(event.target).val());
+      });
+  });
+  </script>
+{%endblock%}

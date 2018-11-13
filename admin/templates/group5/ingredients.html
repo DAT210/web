@@ -1,0 +1,189 @@
+<!-- reference of how to use in group4 menu.html -->
+{% extends "layout.html" %}
+Ingredients
+{%block pageTitle%}
+
+{%endblock%}
+{%block yourStyle%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<meta name="locId" content="{{location.id}}">
+{%endblock%}
+
+{% block content %}
+{%include "navbar.html"%}
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <h1>Showing ingredients for {{location.name}}</h1>
+    </div>
+    <div class="col-3"></div>
+  </div>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-2">
+      <div class="list-group" id="list-tab" role="tablist">
+
+        <!-- Button and hidden form to create a new location -->
+          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#newIng" aria-expanded="false" aria-controls="newIng"> New Ingredient </button>
+          <div class="collapse" id="newIng">
+            <form id="newIngForm" action="" method="POST">
+              <div class="form-group">
+                <label for="newIngredientName">Ingredient Name</label>
+                <input type="text" class="form-control" id="newIngredientName">
+              </div>
+              <div class="form-group">
+                  <label for="newIngredientAmount">Ingredient Amount</label>
+                  <input type="text" class="form-control" id="newIngredientAmount">
+                </div>
+              <button type="button" class="btn btn-secondary" name="submit" value="submit" id="newSubmit">Submit</button>
+            </form>
+          </div>
+        
+          <!-- Hidden form to update a location -->
+          <div class="collapse" id="updateIng">
+            <form id="updateIngForm" action="" method="PUT">
+                <div class="form-group">
+                  <label for="updateIngredientAmount">Ingredient Amount</label>
+                  <input type="text" class="form-control" id="updateIngredientAmount">
+                </div>
+                <div class="form-group">
+                    <label for="updateIngredientName">Ingredient Name</label>
+                    <input type="text" class="form-control" id="updateIngredientName" disabled>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="math" id="add" value="add" checked>
+                    <label class="form-check-label" for="add">
+                      Add
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="math" id="subtract" value="subtract">
+                    <label class="form-check-label" for="subtract">
+                      Subtract
+                    </label>
+                  </div>
+                <button type="button" class="btn btn-secondary" name="submit" value="submit" id="updateSubmit">Submit</button>
+            </form>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-8">
+      <table class="table table-striped table-dark table-bordered table-sm">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Amount</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ingredient in ingredients %}
+            <tr>
+              <th scope="row" class="text-center">{{ingredient.name}}</th>
+              <td class="text-center">{{ingredient.amount}}</td>
+              <td class="text-center"><button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#updateIng" aria-expanded="false" aria-controls="updateIng" id="updateNameFormButtonIng{{ingredient.name}}" value="{{ingredient.name}}">Update</button></td>
+              <td class="text-center"><button class="btn btn-danger" type="button" value="{{ingredient.name}}" id="delete{{ingredient.name}}">Delete</button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-1"></div>
+  </div>
+{%endblock%}
+
+
+{%block yourScript%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+      // Create a new Ingredient
+      $('#newSubmit').on("click", function(event){
+        var name = $('#newIngredientName').val();
+        var amount = $('#newIngredientAmount').val();
+        var locId = $('meta[name=locId]').attr("content");
+        console.log(name, amount, locId);
+          // Send request via AJAX
+          $.ajax({
+              type: "POST",
+              url: "https://192.168.99.100:25101/v1/locations/" + locId + "/ingredients",
+              headers: {
+                  "Authorization": "Bearer " + sessionStorage.getItem("access_token")
+              },
+              contentType: "application/json",
+              data: JSON.stringify({"ingredientName": name, "ingredientAmount" : parseInt(amount)}),
+              error: function(xhr, status, error) {
+                console.log(xhr.responseText)
+              },
+              success: function(data) {
+                location.reload()
+            },
+            statusCode: {
+              401: function() {
+                window.location.href = "/locations/login"
+              }
+            }
+          })
+      }); 
+      // Update a Ingredient
+      $('#updateSubmit').on("click", function(event){
+        var name = $('#updateIngredientName').val();
+        var amount = $('#updateIngredientAmount').val();
+        var operation = $('#updateIngForm input[name=math]:checked').val();
+        var locId = $('meta[name=locId]').attr("content");
+        //Send request via AJAX
+        $.ajax({
+            type: "PUT",
+            url: "https://192.168.99.100:25101/v1/locations/" + locId + "/ingredients/" + name,
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("access_token")
+            },
+            contentType: "application/json",
+            data: JSON.stringify({"ingredientAmount": parseInt(amount), "action": operation}),
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText)
+            },
+            success: function(data) {
+              location.reload()
+            },
+            statusCode: {
+              401: function() {
+                window.location.href = "/locations/login"
+              }
+            }
+        })
+      });
+      // Delete a Ingredient
+      $('[id^=delete]').on("click", function(event){
+        var locId = $('meta[name=locId]').attr("content");
+        //Send request via AJAX
+        $.ajax({
+            type: "DELETE",
+            url: "https://192.168.99.100:25101/v1/locations/" + locId + "/ingredients/" + $(event.target).val(),
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("access_token")
+            },
+            contentType: "application/json",
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText)
+            },
+            success: function(data) {
+              location.reload()
+            },
+            statusCode: {
+              401: function() {
+                window.location.href = "/locations/login"
+              }
+            }
+          })
+      });
+      $('[id^=updateNameFormButtonIng]').on('click', function(event){
+        $('#updateIngredientName').val($(event.target).val());
+      });
+  });
+  </script>
+{%endblock%}

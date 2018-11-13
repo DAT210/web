@@ -22,4 +22,8 @@ def create_app(config_class=Config):
     from blueprints.group4.menu_db.routes import menu
     app.register_blueprint(menu)
 
+    # Group 5: Inventory
+    from blueprints.group5.inventories_web.routes import inventory
+    app.register_blueprint(inventory)
+
     return app
