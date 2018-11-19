@@ -23,3 +23,7 @@ def create_app(config_class=Config):
     app.register_blueprint(menu)
 
     return app
+
+    # Delivery Map page
+    from blueprints.group2.delivery import delivery
+    app.register_blueprint(delivery)
