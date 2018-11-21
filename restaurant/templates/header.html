@@ -7,7 +7,7 @@
                 <!-- Logo -->
                 <div class="logo">
                     <a href="{{ url_for("restaurant.index") }}"> 
-                        <img src="../static/origin/images/icons/logo.png" alt="IMG-LOGO" data-logofixed="../static/origin/images/icons/logo2.png">
+                        <img src="{{ url_for('static', filename='origin/images/icons/logo.png') }}" alt="IMG-LOGO" data-logofixed="{{ url_for('static', filename='origin/images/icons/logo2.png') }}">
                     </a>
                 </div>
 
@@ -47,7 +47,7 @@
                 </div>
                 <!-- Social -->
                 <div class="social flex-w flex-l-m p-r-20">
-                    <a href="#"><i class="fa fa-tripadvisor" aria-hidden="true"></i></a>
+                    <a href="{{ url_for("reviews.list_all") }}"><i class="fa fa-tripadvisor" aria-hidden="true"></i></a>
                     <a href="#"><i class="fa fa-facebook m-l-21" aria-hidden="true"></i></a>
                     <a href="#"><i class="fa fa-twitter m-l-21" aria-hidden="true"></i></a>
 
@@ -106,40 +106,40 @@
 
         <!-- Gallery -->
         <div class="wrap-gallery-sidebar flex-w">
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-01.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-01.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-01.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-01.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-02.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-02.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-02.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-02.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-03.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-03.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-03.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-03.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-05.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-05.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-05.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-05.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-06.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-06.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-06.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-06.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-07.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-07.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-07.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-07.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-09.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-09.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-09.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-09.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-10.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-10.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-10.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-10.jpg') }}" alt="GALLERY">
             </a>
 
-            <a class="item-gallery-sidebar wrap-pic-w" href="../static/origin/images/photo-gallery-11.jpg" data-lightbox="gallery-footer">
-                <img src="../static/origin/images/photo-gallery-thumb-11.jpg" alt="GALLERY">
+            <a class="item-gallery-sidebar wrap-pic-w" href="{{ url_for('static', filename='origin/images/photo-gallery-11.jpg') }}" data-lightbox="gallery-footer">
+                <img src="{{ url_for('static', filename='origin/images/photo-gallery-thumb-11.jpg') }}" alt="GALLERY">
             </a>
         </div>
     </div>
