@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{%block pageTitle%}Order History{%endblock%}
+{%block yourStyle%}
+    <link rel="stylesheet" href="{{url_for('static' , filename='group3/css/reviews.css')}}">
+{%endblock%}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        <ul class="alert">
+    {% for category, message in messages %}
+        <li class="alert alert-{{category}}">{{ message }}</li>
+    {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+{% block content %}
+{%include "header.html"%}
+    <section>
+        <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+            <h1>Listing previous orders</h1>
+            <table class=" table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {% for order in previous_orders %}
+                    <tr>
+                        <td>
+                            <button class="dropbtn" id="dropbtn-{{ loop.index }}">{{order.OrderID}}</button>
+                        </td>
+                        <td>{{order.OrderTime}}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td id="myDropdown-{{ loop.index }}" class="dropdown-content">
+                                {% for meal in order.meals %}
+                                <a href={{url_for('reviews.show_form', meal_id=meal.CourseID)}}>{{meal.CourseID}} - {{meal.CourseName}}</a>
+                                {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{%include "footer.html"%}
+{%endblock%}
+    
+{%block yourScript%}
+<script src="{{ url_for('static', filename='group3/js/reviews.js') }}"></script>
+{%endblock%}
+
+</html>

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{%block pageTitle%}List Reviews{%endblock%}
+
+{%block yourStyle%}
+    <link rel="stylesheet" href="{{url_for('static' , filename='group3/css/reviews.css')}}">
+{%endblock%}
+
+
+{% block content %}
+{%include "header.html"%}
+    <section>
+        <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+            <table class=" table table-bordered">
+                <thead class="thead-dark" >
+                    <tr>
+                        <th>Meal ID</th>
+                        <th>Meal Name</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in all_reviews %}
+                    <tr>
+                        <td><a href={{url_for('reviews.show_review', meal_id=review.id)}}>{{review.id}}</a></td>
+                        <td>{{review.name}}</td>
+                        <td>{{review.rating}}</td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+
+
+            </table>
+        </div>
+    </section>
+
+
+{%include "footer.html"%}
+{%endblock%}
+
+{%block yourScript%}
+{%endblock%}

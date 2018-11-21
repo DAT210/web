@@ -1,9 +1,9 @@
 from flask import Flask
-from config import Config
+from config import config
 
-def create_app(config_class=Config):
+def create_app(config_class='default'):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config[config_class])
 
     """ 
     Add your blueprints here:
@@ -17,6 +17,10 @@ def create_app(config_class=Config):
     # Index page etc.
     from restaurant.routes import restaurant
     app.register_blueprint(restaurant)
+
+    #Group 3:
+    from blueprints.group3.reviews import views
+    app.register_blueprint(views.bp)
 
     # Group 4: Menu etc.'
     from blueprints.group4.menu.routes import menu

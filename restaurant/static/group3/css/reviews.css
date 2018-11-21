@@ -1,0 +1,84 @@
+.rating { 
+  border: none;
+  float: left;
+  width: 230px;
+  margin-left: 0px
+}
+
+.rating label {
+
+  float: right;
+  position: relative;
+  color: #FFBA10;
+  font-size: 200%;
+
+}.rating i:last-child {
+  display: none;
+}
+
+.rating input:checked ~ label i:last-child,
+.rating input:checked + label i:last-child,
+.rating label:hover ~ label i:last-child,
+.rating label:hover i:last-child {
+  display: inline;
+}
+
+.rating input:checked ~ label i:first-child,
+.rating input:checked + label i:first-child,
+.rating label:hover ~ label i:first-child,
+.rating label:hover i:first-child {
+  display: none;
+}
+
+
+.rating input {
+  display: none;
+  position: relative;
+}
+
+.comment{
+  position: absolute  ;
+  top: 50px;
+}
+
+.submit{
+  position: absolute;
+  top: 200px;
+}
+
+
+
+.dropbtn {
+  color: blue;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: #f1f1f1;
+  width: 300px;
+  overflow: auto;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 4px;
+  display: block;
+}
+
+.show {display: block;}
+
+#ratingInComment{
+  color: #b8860b
+}
+

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{%block pageTitle%}Set Review{%endblock%}
+
+{%block yourStyle%}
+<link rel="stylesheet" href="{{url_for('static' , filename='group3/css/reviews.css')}}">
+{%endblock%}
+
+{% block content %}
+{%include "header.html"%}
+    <section class="section-slide">
+        <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            <ul class="alert">
+                {% for category, message in messages %}
+                <li class="alert alert-{{category}}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <div class="container">
+                {% if review %}
+                <h1 class="display-4">Review {{review.name}}</h1>
+                {% else %}>
+                <h1 class="display-4">Doesn't Exist</h1>
+                {% endif %}
+                <img id="mealPic" src="{{ url_for('static', filename='group3/images/feedbackpic.png') }}" height="250px" width="250px">
+                <form class="col-md-4" method="POST">
+                    <div class="rating">
+                        {% for button in form.rating %}
+                            
+                            {{ button }} {{ button.label }}
+                            
+                        {% endfor %}
+                    </div><br>
+
+                    <div class="comment">
+                        {%if form.errors %}
+                        <ul class="alert alert-danger">
+                            {%for field in form.errors%}
+                                {%for error in form.errors[field] %}
+                                    <li>{{error}}</li>
+                                {%endfor%}
+                            {%endfor%}
+                        </ul>
+                        {%endif%}
+                        {{form.comments.label}} <br>
+                        {{form.comments}}
+                    </div> <br>
+                    <div class="btn btn-primary">
+                        {{form.submit}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{%include "footer.html"%}
+{%endblock%}
+
+{%block yourScript%}
+{%endblock%}
