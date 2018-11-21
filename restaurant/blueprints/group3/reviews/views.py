@@ -41,13 +41,13 @@ def show_history(customer_id):
 					try: 
 						meals = response_meals.json()
 						current_app.logger.info(meals)
-						for meal in meals:
+						for meal in meals: #TODO fikse nye orderID
 							id = meal.get('CourseID')
 							current_app.logger.info(id)
 							name = meal.get('CourseName')
 							current_app.logger.info(name)
 							data = {'data': [{'id': id, 'name': name}]}
-						meals_add = requests.api.post("http://review_api:80/api/1.0/reviews/", json=data)
+							meals_add = requests.api.post("http://review_api:80/api/1.0/reviews/", json=data)
 					except json.decoder.JSONDecodeError as err:
 						return str(err.msg) # TODO: Fix return.
 					current_app.logger.info(meals)
