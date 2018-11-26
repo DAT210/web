@@ -18,6 +18,10 @@ def create_app(config_class=Config):
     from restaurant.routes import restaurant
     app.register_blueprint(restaurant)
 
+    # Group 1: Booking.'
+    from blueprints.group1.booking.routes import booking
+    app.register_blueprint(booking)
+
     # Group 4: Menu etc.'
     from blueprints.group4.menu.routes import menu
     app.register_blueprint(menu)

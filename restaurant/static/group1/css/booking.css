@@ -1,0 +1,77 @@
+#restaurantInfo
+{
+
+}
+input[type=radio]
+{
+    display: none;
+}
+#bookingInfo
+{
+    display: none;
+}
+label{
+    cursor : pointer;
+}
+label:hover{
+    color : #ec1d25;
+    font-weight: bold;
+}
+label:active{
+    color : #ec1d25;
+    color : #ec1d25;
+    font-weight: bold;
+}
+.dayCalendar
+{
+    background-color: #dc3545;
+    color: white;
+}
+.calendarItem
+{
+    background-color: white;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border: 1px solid rgba(0,0,0,.125);
+}
+.dayNumber
+{
+    margin-bottom: 45px;
+}
+.calendarItem.disabled
+{
+    background-color: gainsboro;
+}
+.calendarItem:not(.disabled)
+{
+    cursor: pointer;
+}
+.continueBooking{
+    border-radius: 10px;
+    background-color: #7f7e7d;
+    color: #000000;
+    margin-top: 50px;
+    padding: 25px;
+}
+.continueBooking:hover{
+    cursor :pointer;
+    background-color: #ec1d25;
+}
+.attendanceLow
+{
+    background-color: #d0ffd4;
+}
+.attendanceMiddle
+{
+    background-color: #fffed7;
+}
+.attendanceHigh
+{
+    background-color: #f5dad8;
+}
+.fullTimeTrue
+{
+    background-color: lightgrey !important;
+    color: black !important;
+    border-color: lightgrey !important;
+}
