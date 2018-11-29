@@ -23,7 +23,11 @@
                     <tr>
                         <td><a href={{url_for('reviews.show_review', meal_id=review.id)}}>{{review.id}}</a></td>
                         <td>{{review.name}}</td>
+                        {% if review.rating == 0.0 %}
+                        <td>N/A</td>
+                        {% else %}
                         <td>{{review.rating}}</td>
+                        {% endif %}
                     </tr>
 
                     {% endfor %}

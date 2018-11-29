@@ -1,14 +1,17 @@
+.submitBtn{
+  padding: px;
+  margin-top: 110px;
+  padding-right: 180px;
+}
 .rating { 
   border: none;
   float: left;
-  width: 230px;
-  margin-left: 0px
+  width: 150px;
 }
 
 .rating label {
-
-  float: right;
   position: relative;
+  float:right;
   color: #FFBA10;
   font-size: 200%;
 
@@ -81,4 +84,3 @@
 #ratingInComment{
   color: #b8860b
 }
-
