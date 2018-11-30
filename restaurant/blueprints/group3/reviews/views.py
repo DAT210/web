@@ -25,18 +25,16 @@ def new_meal_review(meals):
 		meals_add = requests.api.post("http://review_api:80/api/1.0/reviews/", json=data)
 
 def meals_in_orders(previous_orders):
-	try:
-		for order in previous_orders:
-			response_meals = requests.api.get(f"http://python-api:80/orders/api/courses/{int(order['OrderID'])}", timeout=30.0)
-			if response_meals.status_code is 200:
-				try: 
-					meals = response_meals.json()
-					new_meal_review(meals)
-				except json.decoder.JSONDecodeError as err:
-					return str(err.msg) # TODO: Fix return.
-				order.update({'meals': meals})
-	except:
-		return "wrong" 
+	for order in previous_orders:
+		response_meals = requests.api.get(f"http://python-api:80/orders/api/courses/{int(order['OrderID'])}", timeout=30.0)
+		if response_meals.status_code is 200:
+			try: 
+				meals = response_meals.json()
+				new_meal_review(meals)
+			except json.decoder.JSONDecodeError as err:
+				return str(err.msg)
+			order.update({'meals': meals})
+
 
 @bp.route("/history/<string:customer_id>/", methods=['GET'])
 def show_history(customer_id):
@@ -44,14 +42,16 @@ def show_history(customer_id):
 		response_orders = requests.api.get(f"http://python-api:80/orders/api/customerorders/{customer_id}", timeout=30.0)
 	except:
 		flash("The server couldn't reach the API.", category='info')
-		return redirect(url_for('reviews.reviews')), 500 # TODO: fix redirect
+		return redirect(url_for('reviews.reviews')), 500 
 	if response_orders.status_code is 200:
 		try:
 			previous_orders = response_orders.json()
 		except json.decoder.JSONDecodeError as err:
-			return str(err.msg) # TODO: Fix return.
-		meals_in_orders(previous_orders)
-		current_app.logger.info(previous_orders)
+			return str(err.msg) 
+		try:
+			meals_in_orders(previous_orders)
+		except:
+			return "wrong"
 		return render_template("group3/reviews/history.html", previous_orders=previous_orders)
 	return "Faulty"
 	
@@ -97,10 +97,10 @@ def show_form(meal_id):
 			try:
 				status = api_response.json().get('status')
 			except json.decoder.JSONDecodeError as err:
-				return str(err.msg) # TODO: Fix return.
+				return str(err.msg) 
 			if status == 'success':
 				flash('The review has successfully been added!', category='success')
-				return redirect(url_for("reviews.show_history", customer_id=get_cid))##TODO teste med login
+				return redirect(url_for("reviews.show_history", customer_id=get_cid))
 		flash("The form couldn't be validated.", category='warning')	
 		return redirect(url_for('reviews.show_form', meal_id=meal_id))
 	try:
@@ -121,12 +121,12 @@ def list_all():
 		response = requests.api.get(f"http://review_api:80/api/1.0/reviews/", timeout=30.0)
 	except:
 		flash("The server couldn't reach the API.", category='info')
-		return redirect(url_for('reviews.hello')), 500 #TODO:fix redirect
+		return redirect(url_for('reviews.hello')), 500 
 	if response.status_code is 200:
 		try: 
 			all_reviews = response.json()['data']['reviews']
 		except json.decoder.JSONDecodeError as err:
-			return str(err.msg) # TODO: Fix return.
+			return str(err.msg) 
 		return render_template('group3/reviews/list_reviews.html', all_reviews=all_reviews)
 	else:
 		return "wrong"
@@ -143,7 +143,7 @@ def show_review(meal_id):
 		try: 
 			the_review = response.json()['data']['review']
 		except json.decoder.JSONDecodeError as err:
-			return str(err.msg) # TODO: Fix return.
+			return str(err.msg) 
 		return render_template('group3/reviews/show_review.html', the_review=the_review)
 	else:
 		return "wrong"
