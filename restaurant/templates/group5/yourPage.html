@@ -1,19 +1,376 @@
 <!-- reference of how to use in group4 menu.html -->
 {% extends "layout.html" %}
+
+
 {%block pageTitle%}
 
 {%endblock%}
 {%block yourStyle%}
 <!-- add your css files here -->
+
+body{
+  margin-top: 30px;
+  margin-left: 400px;
+}
+
+#fb-button {
+height: 100px;
+width: 100px;
+background-image:url('https://cdn-img.easyicon.net/png/5826/582673.gif');
+background-repeat:no-repeat;
+margin-right: 10px;
+margin-left: 10px;
+margin-top: 30px;
+margin-left: 170px;
+}
+
+#twitter-button {
+height: 100px;
+width: 100px;
+background-image:url('http://www.ginaguddat.com/pics/icons-twitter-100px.png');
+background-repeat:no-repeat;
+margin-right: 10px;
+margin-left: 10px;
+margin-top: 30px;
+}
+
+#insta-button {
+height: 100px;
+width: 100px;
+background-image:url('http://cisdallas.org/wp-content/uploads/2015/04/instagram-icon-100px.png');
+background-repeat:no-repeat;
+margin-right: 10px;
+margin-left: 10px;
+margin-top: 30px;
+}
+
+#twitter{
+  margin-left: -20px;
+    width: 100%;
+    margin-left:-200px;
+}
+
+#insta{
+
+  margin-top: 20px;
+  width: 100%;
+  margin-left:-200px;
+}
+
+#fb-root{
+width:100%;
+margin-left:-200px;
+height:700px;
+}
+
+#map {
+  height: 500px;
+  width: 700px;
+}
+
+#description {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+#infowindow-content .title {
+  font-weight: bold;
+}
+
+#infowindow-content {
+  display: none;
+}
+
+#map #infowindow-content {
+  display: inline;
+}
+
+.pac-card {
+  margin: 10px 10px 0 0;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  font-family: Roboto;
+}
+
+#pac-container {
+  padding-bottom: 12px;
+  margin-right: 12px;
+}
+
+.pac-controls {
+  display: inline-block;
+  padding: 5px 11px;
+}
+
+.pac-controls label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 400px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+#title {
+  color: #fff;
+  background-color: #4d90fe;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+#target {
+  width: 345px;
+}
+
+
+
 {%endblock%}
 
 {% block content %}
 {%include "header.html"%}
 <!-- add your body content here -->
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<nav id="map">
+<script>
+  // This is a google maps representation of the three resturants that have opened
+
+// creates a new map
+  function initAutocomplete() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 58.937363, lng: 5.696214},
+      zoom: 16,
+      mapTypeId: 'roadmap'
+    });
+
+    // Creates a search box for writing where you are
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    var markers = [];
+
+    // listener for marker place to get info
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      // Clears old markers when a new has been searched
+      markers.forEach(function(marker) {
+        marker.setMap(null);
+      });
+      markers = [];
+
+      // For each place search an icon will apear and for place that does not have facts
+      var bounds = new google.maps.LatLngBounds();
+      places.forEach(function(place) {
+        if (!place.geometry) {
+          console.log("Returned place contains no geometry");
+          return;
+        }
+
+        //the icon
+        var icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+
+        // Creates the marker for the place
+        markers.push(new google.maps.Marker({
+          map: map,
+          icon: icon,
+          title: place.name,
+          position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+        }
+        else {
+          bounds.extend(place.geometry.location);
+        }
+      });
+
+      map.fitBounds(bounds);
+
+    });
+
+        // resturant 1 marker
+        var marker1 = new google.maps.Marker({
+          position: {lat:58.97005, lng:5.73332},
+          map: map
+        });
+
+        // this is a window
+        var infoWindow= new google.maps.InfoWindow({
+          content: '<h1> Resturant 3 </h1>   <button id="menu-button"> book table </button> <button id="menu-button">buy takeaway</button>'
+        });
+
+        //this is a windo listener so that when it is clicked it apears
+        marker1.addListener('click', function (){
+          infoWindow.open(map, marker1);
+        });
+
+        // resturant 2 marker
+        var marker2 = new google.maps.Marker({
+          position: {lat:58.951957, lng:5.707396},
+          map: map
+        });
+
+        // this is the info box where the buttons are
+        var infoWindow2= new google.maps.InfoWindow({
+          content: '<h1> Resturant 2 </h1>   <button id="menu-button"> book table </button> <button id="menu-button">buy takeaway</button>'
+        });
+
+        // listener so when it is clicked the windo box appears
+        marker2.addListener('click', function (){
+          infoWindow2.open(map, marker2);
+        });
+
+        // resturant 3 marker
+        var marker3 = new google.maps.Marker({
+          position: {lat: 58.937363, lng: 5.696214},
+          map: map
+        });
+
+        // this is the info box where the buttons are
+        var infoWindow3= new google.maps.InfoWindow({
+          content: '<h1> Resturant 1 </h1>   <button id="menu-button"> book table </button> <button id="menu-button">buy takeaway</button>'
+        });
+
+        // listener so when it is clicked the windo box appears
+        marker3.addListener('click', function (){
+          infoWindow3.open(map, marker3);
+        });
+
+  }
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4-RBkjhy78qe2q5Nr4mLMRQ1jKN11Ixk&libraries=places&callback=initAutocomplete"
+     async defer></script>
+
+</nav>
+
+<!-- The buttons -->
+<button id="fb-button"></button>
+<button id="insta-button"></button>
+<button id="twitter-button"></button>
+
+<!-- This is for facebook-->
+<div id="fb-root">
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = 'https://connect.facebook.net/nb_NO/sdk.js#xfbml=1&version=v3.2';
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-page" data-href="https://www.facebook.com/LEDuis/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/LEDuis/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/LEDuis/">LED Linjeforening for Elektro &amp; Data</a></blockquote></div>
+</div>
+
+<!-- This is for twitter-->
+<nav id = "twitter">
+<a class="twitter-timeline" href="https://twitter.com/PizzaPizzaLtd">National Park Tweets - Curated tweets by TwitterDev</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</nav>
+
+<!-- Thi is from instagram! What to take into acount is that this is not created by me but by a website because getting an api from instagram is not easy-->
+<nav id= "insta"> <!-- creates an instagram feedx ot show pictures of food, trying to implimeyt it with cklickin abutton and hiding it if else-->
+<script src="https://apps.elfsight.com/p/platform.js" defer></script>
+<div class="elfsight-app-cee65a04-918c-4f28-8c64-aec5b2e1d959"></div>
+</nav>
+
+<!-- Script to hide/show social media-->
+<script>
+
+// for facebook button
+var button = document.querySelector('#fb-button');
+var menu = document.querySelector('#fb-root');
+
+//hides the div when the page is first entered.
+menu.style.display = "none";
+
+button.addEventListener('click', function (event) {
+      if (menu.style.display == "") {
+          menu.style.display = "none";
+          button.innerHTML = "";
+      } else {
+          menu.style.display = "";
+          button.innerHTML = " ";
+      }
+    }
+  );
+
+  // for twitter button
+  var button1 = document.querySelector('#twitter-button');
+  var menu1 = document.querySelector('#twitter');
+
+  //hides the div when the page is first entered.
+  menu1.style.display = "none";
+
+  button1.addEventListener('click', function (event) {
+        if (menu1.style.display == "") {
+            menu1.style.display = "none";
+            button1.innerHTML = "";
+        } else {
+            menu1.style.display = "";
+            button1.innerHTML = " ";
+        }
+      }
+    );
+
+  // hides and shows instagram
+  var button2 = document.querySelector('#insta-button');
+  var menu2 = document.querySelector('#insta');
+
+  //hides the div when the page is first entered.
+  menu2.style.display = "none";
+
+  button2.addEventListener('click', function (event) {
+        if (menu2.style.display == "") {
+            menu2.style.display = "none";
+            button2.innerHTML = "";
+        } else {
+            menu2.style.display = "";
+            button2.innerHTML = " ";
+        }
+      }
+    );
+</script>
+
 {%include "footer.html"%}
 {%endblock%}
 
 
 {%block yourScript%}
 <!-- add your scripts here -->
+
+
+
+
 {%endblock%}
