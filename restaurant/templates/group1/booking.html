@@ -4,16 +4,17 @@
 
 {%endblock%}
 {%block yourStyle%}
-<!-- add your css files here -->
+    {{ super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='group1/css/booking.css')}}">
 {%endblock%}
 
 {% block content %}
 {%include "header.html"%}
-<!-- add your body content here -->
+{{ restaurantSelection|safe }}
 {%include "footer.html"%}
 {%endblock%}
 
 
 {%block yourScript%}
-<!-- add your scripts here -->
+<script src="{{ url_for('static',filename='group1/js/booking.js') }}"></script>
 {%endblock%}

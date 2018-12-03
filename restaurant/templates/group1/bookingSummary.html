@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{%block pageTitle%}
+
+{%endblock%}
+{%block yourStyle%}
+{{ super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='group1/css/booking.css')}}">
+{%endblock%}
+
+{% block content %}
+{%include "header.html"%}
+{{ bookingSummary|safe }}
+{%include "footer.html"%}
+{%endblock%}
+{%block yourScript%}
+    <script src="{{ url_for('static',filename='group1/js/bookingEdit.js') }}"></script>
+{%endblock%}
