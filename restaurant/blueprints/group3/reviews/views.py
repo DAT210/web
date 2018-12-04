@@ -14,7 +14,7 @@ bp = Blueprint('reviews', __name__, url_prefix='/reviews')
 
 @bp.route("/historybutton/", methods=['GET'])
 def history_button():
-	correct_cid = get_cid()
+	correct_cid = 15
 	return redirect(url_for("reviews.show_history", customer_id = correct_cid)) 
 
 def new_meal_review(meals):
@@ -100,7 +100,7 @@ def show_form(meal_id):
 				return str(err.msg) 
 			if status == 'success':
 				flash('The review has successfully been added!', category='success')
-				return redirect(url_for("reviews.show_history", customer_id=get_cid))
+				return redirect(url_for("reviews.show_history", customer_id=15))
 		flash("The form couldn't be validated.", category='warning')	
 		return redirect(url_for('reviews.show_form', meal_id=meal_id))
 	try:
