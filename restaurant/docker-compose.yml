@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 5000:5000
     command: python3 run.py
     networks: 
       - frontend
